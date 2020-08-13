@@ -38,7 +38,7 @@
 
               <div class="navbar-item">
                 <div class="buttons">
-                  <a class="button is-rounded is-medium" href="#">
+                  <a class="button is-rounded is-medium" href="/profile">
                     <strong>YOUR PROFILE</strong>
                   </a>
                 </div>
@@ -66,7 +66,7 @@
 </div>
 {% endif %}
 
-<h1 class="x is-size-1 has-text-centered has-text-white"><b>WELCOME, {{ user.username }}!</b></h1>
+<h1 class="x is-size-1 has-text-centered has-text-white"><b>Welcome, {{ user.username }}!</b></h1>
 
 <br>
 
@@ -85,11 +85,11 @@
 
       <div class="column is-12-mobile is-half">
         <div class="box">
-          <form action="{% url 'new_session' %}" method="POST">
-            {% csrf_token %}
-            <input type="image" name="submit" src="{% static 'home/create.png' %}" border="0" alt="Submit">
-          </form>
-          <p class="x is-size-2 has-text-dark "><b>CREATE SESSION</b></p>
+            <img src="{% static 'home/create.png' %}" width=300>
+            <form action="{% url 'new_session' %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="x button is-rounded is-medium is-size-3-desktop"<strong><b>CREATE SESSION</b></strong></button>
+            </form>
         </div>
       </div>
 
@@ -98,7 +98,7 @@
           <a href="#">
             <img src="{% static 'home/join.png' %}" width=300>
           </a>
-          <p class="x is-size-2 has-text-dark "><b>JOIN SESSION</b></p>
+          <p><button type="submit" class="x button is-rounded is-medium is-size-3-desktop"<strong><b>JOIN SESSION</b></strong></button></p>
 
         </div>
       </div>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'home/home.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  <link rel = "icon" href ="logoWhite.png" type = "image">
+  <title> Classrom Plus </title>
+</head>
+
+<body>
+  <style>
+  body {
+    background-image: url("{% static 'home/chalkboard.png' %}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  </style>
+
+  <nav class="navbar is-success">
+      <div class="hero-body">
+        <div class="container">
+          <div class="navbar-brand">
+
+            <a href="/">
+              <img src="{% static 'home/logoblack.png' %}" width=60>
+            </a>
+
+            <div class="navbar-end">
+
+              <div class="navbar-item">
+                <div class="buttons">
+                  <a class="button is-rounded is-medium" href="/">
+                    <strong>HOME</strong>
+                  </a>
+                </div>
+              </div>
+
+              <div class="navbar-item">
+                <form action="{% url 'logoutuser' %}" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="button is-rounded is-medium"<strong><b>Logout</b></strong></button>
+                </form>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </nav>
+</body>
+
+
+
+<section class="section has-text-centered">
+    <div class="container">
+      <div class="columns is-multiline">
+
+        <div class="column is-12-mobile is-full">
+          <div class="box">
+            <img class="logo" src="{% static 'home/profile_black.png' %}" width=200>
+            <br><br>
+            <p class="x is-size-3"><b>Username: {{ user.username }}</b></p>
+            <br>
+            <p class="x has-text-dark is-size-3"><b>Email: {{ user.email }}</b></p>
+            <br><br>
+            <a class="x button has-text-dark is-size-3"><span class="icon"><i class="far fa-check-circle"></i></span><span><b>Change password</b></span></a>
+          </div>
+        </div>
+  </section>
+
+
+
+  <section class="hero is-success is-medium is-bold">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <img src="{% static 'home/logoblack.png' %}" width=7%>
+          <h1 class=" x is-size-2-desktop has-text-black is-size-4-mobile"><b>Helping you level up one day at a time!</b></h1>
+          <br>
+
+          <br>
+          <p class="x is-size-4 has-text-black"> <b>Handcrafted by Fayed Raza , Rachael wei , Akaash Kolachina , Ricky Zhao , Nakul Iyer , Aryaman Singhal , Rohit Manjunath</b>  </p>
+        </div>
+      </div>
+    </section>

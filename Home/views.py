@@ -12,7 +12,7 @@ from django.core.mail import EmailMessage
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-import uuid, random
+import uuid, random, requests
 from .models import Sessions
 from django.shortcuts import get_object_or_404
 
@@ -75,6 +75,9 @@ def loginuser(request):
             login(request, user)
             return(redirect('dashboard'))
 
+def profile(request):
+    return(render(request,'home/profile.html'))
+
 @login_required
 def logoutuser(request):
     if request.method == 'POST':
@@ -90,7 +93,12 @@ def new_session(request):
     if request.method == 'POST':
         current_site = get_current_site(request)
         user = request.user
-        url = 'http://' + current_site.domain + '/session/' + urlsafe_base64_encode(force_bytes(user.pk))+'/'+ account_activation_token.make_token(user)+'/'+str(random.randint(1,100))
+        session_name = urlsafe_base64_encode(force_bytes(user.pk))+'/'+ account_activation_token.make_token(user)+'/'+str(random.randint(1,100))
+        url = 'http://' + current_site.domain + '/session/' + session_name
+
+        api_url = 'https://classroomplus.herokuapp.com/sessions/new'
+        params = {'session_name': session_name, 'user_id': user.pk, 'user_name': user.username}
+        post = requests.post(api_url, json=params)
         return(render(request,'home/dashboard.html',{'url':url}))
 
 @login_required
