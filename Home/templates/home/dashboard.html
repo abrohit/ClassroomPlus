@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<head>
+
+{% load static %}
+
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'home/home.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+  <link rel = "icon" href ="{% static 'home/logoWhite.png' %}" type = "image">
+  <title>Classrom Plus | Dashboard </title>
+</head>
+
+<body>
+  <style>
+  body {
+    background-image: url("{% static 'home/chalkboard.png' %}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+</style>
+
+  <body>
+  <nav class="navbar is-success">
+      <div class="hero-body">
+        <div class="container">
+          <div class="navbar-brand">
+
+            <a href="#">
+              <img src="{% static 'home/logoblack.png' %}" width=60>
+            </a>
+
+            <div class="navbar-end">
+
+              <div class="navbar-item">
+                <div class="buttons">
+                  <a class="button is-rounded is-medium" href="/login">
+                    <strong>YOUR PROFILE</strong>
+                  </a>
+                </div>
+              </div>
+
+              <div class="navbar-item">
+                <form action="{% url 'logoutuser' %}" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="button is-rounded is-medium"<strong><b>Logout</b></strong></button>
+                </form>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </nav>
+</body>
+<br><br><br>
+
+{% if success %}
+<div class="container">
+  <div class="notification is-success has-text-centered x is-size-4-desktop">
+    {{ success }}
+  </div>
+</div>
+{% endif %}
+
+<h1 class="x is-size-1 has-text-centered has-text-white"><b>WELCOME, {{ user.username }}!</b></h1>
+
+
+<br>
+
+
+
+
+
+<section class="section has-text-centered">
+  <div class="container">
+    <div class="columns is-multiline">
+
+      <div class="column is-12-mobile is-half">
+        <div class="box">
+          <a href="#">
+            <img src="{% static 'home/create.png' %}" width=300>
+          </a>
+          <p class="x is-size-2 has-text-dark "><b>CREATE SESSION</b></p>
+
+
+        </div>
+      </div>
+
+      <div class="column is-12-mobile is-half">
+        <div class="box">
+          <a href="#">
+            <img src="{% static 'home/join.png' %}" width=300>
+          </a>
+          <p class="x is-size-2 has-text-dark "><b>JOIN SESSION</b></p>
+
+        </div>
+      </div>
+  </div>
+  </div>
+</section>
+
+<br><br><br><br>
+
+<section class="hero is-success is-small is-bold">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <img src="{% static 'home/logoblack.png' %}" width=10%>
+        <h1 class="x is-size-2-desktop has-text-black is-size-4-mobile"><b>Helping you level up one day at a time!</b></h1>
+        <br>
+
+        <br>
+        <p class="x is-size-4 has-text-black"> <b>Handcrafted by Fayed Raza , Rachael wei , Akaash Kolachina , Ricky Zhao , Nakul Iyer , Aryaman Singhal , Rohit Manjunath</b></p>
+        <br><br>
+      </div>
+    </div>
+  </section>

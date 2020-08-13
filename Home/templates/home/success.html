@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'portfolio/home.css' %}">
+    <link rel = "icon" href ="{% static 'home/logoWhite.png' %}" type = "image">
+
+    <title>Classroom Plus | Success!!</title>
+  </head>
+
+  <body>
+    <style>
+      body {
+        background-image: url("{% static 'home/chalkboard.png' %}");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+      }
+    </style>
+
+    <section class="hero is-white is-fullheight has-text-centered animate-fadeUp">
+      <div class="hero-body" style="padding-top: 0;">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-three-fifths"><img src="{% static 'home/success.gif' %}" style="margin-bottom: 48px; max-width: 300px;">
+              <h1 class="title is-spaced is-size-1-desktop is-size-2-tablet is-size-3-mobile">A Confirmation Email Has Been Sent to You</h1>
+              <a class="button is-primary is-outlined is-medium is-rounded" style="margin-top: 30px; font-weight: 500;" href="/">Back home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
