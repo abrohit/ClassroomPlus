@@ -25,13 +25,12 @@
   }
 </style>
 
-  <body>
   <nav class="navbar is-success">
       <div class="hero-body">
         <div class="container">
           <div class="navbar-brand">
 
-            <a href="#">
+            <a href="/">
               <img src="{% static 'home/logoblack.png' %}" width=60>
             </a>
 
@@ -39,7 +38,7 @@
 
               <div class="navbar-item">
                 <div class="buttons">
-                  <a class="button is-rounded is-medium" href="/login">
+                  <a class="button is-rounded is-medium" href="#">
                     <strong>YOUR PROFILE</strong>
                   </a>
                 </div>
@@ -69,11 +68,15 @@
 
 <h1 class="x is-size-1 has-text-centered has-text-white"><b>WELCOME, {{ user.username }}!</b></h1>
 
-
 <br>
 
-
-
+{% if url %}
+<div class="container">
+  <div class="notification is-success has-text-centered x is-size-4-desktop">
+    <p><a href="{{ url }}">{{ url }}</a>. Your Session has been created. Use this link to invite your students!</p>
+  </div>
+</div>
+{% endif %}
 
 
 <section class="section has-text-centered">
@@ -82,12 +85,11 @@
 
       <div class="column is-12-mobile is-half">
         <div class="box">
-          <a href="#">
-            <img src="{% static 'home/create.png' %}" width=300>
-          </a>
+          <form action="{% url 'new_session' %}" method="POST">
+            {% csrf_token %}
+            <input type="image" name="submit" src="{% static 'home/create.png' %}" border="0" alt="Submit">
+          </form>
           <p class="x is-size-2 has-text-dark "><b>CREATE SESSION</b></p>
-
-
         </div>
       </div>
 

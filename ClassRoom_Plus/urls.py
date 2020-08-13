@@ -31,5 +31,8 @@ urlpatterns = [
 
     path('dashboard/', views.dashboard, name='dashboard'),
 
-    path('v1/', include('UserApi.urls'))
+    path('v1/', include('UserApi.urls')),
+
+    path('newsession/',views.new_session,name='new_session'),
+     url(r'^session/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/[1-9][0-9]?$|^100/$',views.user_session, name='user_session'),
 ]

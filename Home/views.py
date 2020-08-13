@@ -12,6 +12,9 @@ from django.core.mail import EmailMessage
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
+import uuid, random
+from .models import Sessions
+from django.shortcuts import get_object_or_404
 
 def home(request):
     if request.user.is_authenticated:
@@ -28,7 +31,7 @@ def signupuser(request):
                 user.is_active = False
                 user.save()
                 current_site = get_current_site(request)
-                mail_subject = 'Activate your Classroom+ account.'
+                mail_subject = 'Activate your Classroom Plus account.'
                 message = render_to_string('home/acc_active_email.html', {'user': user,'domain': current_site.domain,'uid':urlsafe_base64_encode(force_bytes(user.pk)),'token':account_activation_token.make_token(user),})
                 to_email = form.cleaned_data.get('email')
                 email = EmailMessage(mail_subject, message, to=[to_email])
@@ -60,7 +63,10 @@ def activate(request, uidb64, token):
 
 def loginuser(request):
     if request.method == 'GET':
-        return(render(request,'home/login.html', {'form':AuthenticationForm()}))
+        if request.user.is_authenticated:
+            return(redirect('dashboard'))
+        else:
+            return(render(request,'home/login.html', {'form':AuthenticationForm()}))
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
@@ -78,3 +84,21 @@ def logoutuser(request):
 @login_required
 def dashboard(request):
     return(render(request,'home/dashboard.html'))
+
+@login_required
+def new_session(request):
+    if request.method == 'POST':
+        current_site = get_current_site(request)
+        user = request.user
+        url = 'http://' + current_site.domain + '/session/' + urlsafe_base64_encode(force_bytes(user.pk))+'/'+ account_activation_token.make_token(user)+'/'+str(random.randint(1,100))
+        return(render(request,'home/dashboard.html',{'url':url}))
+
+@login_required
+def user_session(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        return(render(request,'home/session.html'))
