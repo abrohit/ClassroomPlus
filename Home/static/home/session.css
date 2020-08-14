@@ -198,3 +198,8 @@ textarea {
 #quiz-btns > button {
     margin: 0 15px;
 }
+
+.radio-group {
+    margin: 15px auto;
+    width: 300px;
+}
