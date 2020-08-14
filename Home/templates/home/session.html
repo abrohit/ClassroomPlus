@@ -8,11 +8,12 @@
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'home/home.css' %}">
+  <link rel="stylesheet" href="{% static 'home/session.css' %}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
   <link rel = "icon" href ="{% static 'home/logoWhite.png' %}" type = "image">
-  <title>Classrom Plus | {{user.username }}'s session</title>
+  <title>Classrom Plus | {{user.username}}</title>
 </head>
 
 <body>
@@ -56,8 +57,26 @@
     </div>
   </nav>
 
-  <h1 class="x is-size-1 has-text-centered has-text-white"><b>WELCOME, {{ user.username }}!</b></h1>
+  <div id="page">
+  <h2 id="title" class="x is-size-1 has-text-centered has-text-white">...</h2>
+  <div style="display: flex; flex-direction: row; margin: 0 auto; width: 250px;"><h4 id="lobby-population-label">...</h4>&emsp;<div class="button is-rounded is-small" onclick="leave_room()"><strong><b>Logout</b></strong></div></div>
 
+  <div id="bodyStuffs">
+    <div id="notezone">
+<textarea type="text" class ="input-box" id="id1" name="pword" size="44"> </textarea>
+      <button type="button" onclick="saveFile()"> Save Notes </button>
+</div>
+    <div id="inputzone">
+      <div id="chatlabel" style="display: flex; flex-direction: row; margin: 0 auto; width: 100px;"><h4>Chatroom</h4>&emsp;<div class="button is-rounded is-small" onclick="chatRefresh()"><strong><b>Refresh</b></strong></div></div>
+<div class ="input-box2" id="id" name="pword" size="24">
+
+  </div>
+
+<textarea class ="input-box3" id="id3" name="pword" size="24"></textarea>
+      <button type="button" onclick="sendDoubt()"> Send </button>
+      </div>
+    </div>
+    </div>
   <section class="hero is-success is-small is-bold">
       <div class="hero-body">
         <div class="container has-text-centered">
@@ -65,10 +84,227 @@
           <h1 class="x is-size-2-desktop has-text-black is-size-4-mobile"><b>Helping you level up one day at a time!</b></h1>
           <br>
           <br>
-          <p class="x is-size-4 has-text-black"> <b>Handcrafted by Fayed Raza , Rachael wei , Akaash Kolachina , Ricky Zhao , Nakul Iyer , Aryaman Singhal , Rohit Manjunath</b></p>
+          <p class="x is-size-4 has-text-black"> <b>{{ user.username }}Handcrafted by Fayed Raza , Rachael wei , Akaash Kolachina , Ricky Zhao , Nakul Iyer , Aryaman Singhal , Rohit Manjunath</b></p>
           <br><br>
         </div>
       </div>
     </section>
+
+    <script type="text/javascript">
+        const session_lbl = window.location.href.indexOf("session/") + 8
+        const session_id = window.location.href.substring(session_lbl)
+        const user_id = '{{user.id}}'
+        const user_name = '{{user.username}}'
+        const std_rbody = {session_id: session_id, user_id: user_id, user_name: user_name}
+        let users = []
+
+        window.onload = function() {
+            let xhr = sendReq("GET", "/v1/users/?format=json", {})
+            xhr.onreadystatechange = function() {
+                users = JSON.parse(this.response)
+                let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/enter", std_rbody)
+                xhr.onreadystatechange = onSessionEnter
+            }
+
+            var myInput = document.getElementById("id1");
+            if(myInput.addEventListener ) {
+                myInput.addEventListener('keydown',this.keyHandler,false);
+            } else if(myInput.attachEvent ) {
+                myInput.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
+            }
+        }
+
+        window.onbeforeunload = function (e) {
+            e.preventDefault();
+
+            let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/leave", std_rbody)
+            xhr.onreadystatechange = function () {}
+        };
+
+        function leave_room() {
+            let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/leave", std_rbody)
+            xhr.onreadystatechange = function () {
+                window.location.href = '/'
+            }
+        }
+
+        function onSessionEnter() {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/get", std_rbody)
+                xhr.onreadystatechange = onSessionGet
+            }
+        }
+
+        function chatRefresh() {
+          let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/get", std_rbody)
+          xhr.onreadystatechange = onSessionGet
+        }
+
+        function getUserWithId(id) {
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].id == id) {
+                    return users[i].username
+                }
+            }
+        }
+
+        function onSessionGet() {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                const session_response = JSON.parse(this.response).response
+
+                const session_id = session_response.session_name
+                const lobby_size = session_response.current_users.length
+                const doubts = session_response.doubts
+
+                document.getElementById("id").innerHTML = ""
+
+                document.getElementById("title").innerText = session_id;
+                document.getElementById("lobby-population-label").innerText = lobby_size + ' ' + (lobby_size > 1 ? 'people' : 'person') + ' in the lobby';
+
+                for (var i = 0; i < doubts.length; i++) {
+                    var divy = document.createElement("div")
+                    divy.classList = ["doubt"]
+                    divy.innerHTML = "<p>" + "(" + getUserWithId(doubts[i].poster) + ") " + doubts[i].question + "</p>\n" +
+                      "      <div class=\"reddit-box\">\n" +
+                      "        <div>" + doubts[i].upvoters.length + "</div><svg onclick=\"upvote('" + doubts[i].doubt_id +"')\" width=\"20px\" class=\"MuiSvgIcon-root jss79\" focusable=\"false\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z\" fill=\"rgba(255, 40, 40, 0.5)\"></path></svg>\n" +
+                      "        &nbsp;&nbsp;&nbsp;" +
+                            "<svg onclick=\"neutralize('" + doubts[i].doubt_id +"')\" width=\"20px\" class=\"MuiSvgIcon-root jss79\" focusable=\"false\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5H5.82l.78-3.78L5.38 0 0 5.38V14h9.24L12 7.54zm2.76 5L12 16.46V19h6.18l-.78 3.78L18.62 24 24 18.62V10z\"></path></svg>" +
+                            "&emsp;" +
+                      "        <div>" + doubts[i].downvoters.length + "</div><svg onclick=\"downvote('" + doubts[i].doubt_id +"')\" width=\"20px\" class=\"MuiSvgIcon-root jss79\" focusable=\"false\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z\" fill=\"rgba(40, 40, 255, 0.5)\"></path></svg>\n" +
+                      "      </div>"
+                    divy.onclick = bindToWindow.bind(this, doubts[i].doubt_id, divy)
+                    document.getElementById("id").appendChild(divy)
+
+                    for (var j = 0; j < doubts[i].comments.length; j++) {
+                      var divy = document.createElement("div")
+                      divy.classList = ["comment"]
+                      divy.innerHTML = "<p>" + "(" + getUserWithId(doubts[i].comments[j].commenter) + ") " + doubts[i].comments[j].comment + "</p>"
+                      document.getElementById("id").appendChild(divy)
+                    }
+                }
+            }
+        }
+
+        function sendReq (typ, url, body) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(typ, url);
+            // xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify(body));
+            return xhr
+        }
+
+        function saveFile(){
+            var file = document.getElementById("id1").value;
+            console.log(file)
+                  // Convert the text to BLOB.
+                const textToBLOB = new Blob([file], { type: 'text/plain' });
+                const date = new Date();
+                const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
+                const [{ value: month },,{ value: day },,{ value: year }] = dateTimeFormat .formatToParts(date)
+
+                const sFileName = `${month} ${day} ${year} Notes.txt`;	   // The file to save the data.
+
+                let newLink = document.createElement("a");
+                newLink.download = sFileName;
+
+                if (window.webkitURL != null) {
+                    newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+                }
+                else {
+                    newLink.href = window.URL.createObjectURL(textToBLOB);
+                    newLink.style.display = "none";
+                    document.body.appendChild(newLink);
+                }
+
+                newLink.click();
+        }
+
+        function bindToWindow(e, divy) {
+            if (typeof window.to_comment === 'undefined') {
+              // <button type="button" onclick="sendDoubt()"> Send </button>
+              const btn = document.createElement("button")
+              btn.type = "button"
+              btn.onclick = sendComment
+              btn.innerHTML = " Comment "
+              document.getElementById("inputzone").appendChild(btn)
+            }
+            window.to_comment = e;
+          }
+
+        function keyHandler(e) {
+            var TABKEY = 9;
+            if(e.keyCode == TABKEY) {
+                this.value += "    ";
+                if (e.preventDefault) {
+                  e.preventDefault();
+                }
+                return false;
+            }
+        }
+
+        function sendDoubt() {
+            const txt = document.getElementById("id3").value
+            if (txt === "") {
+                return;
+            }
+            const params = Object.assign({}, std_rbody, { question: txt })
+            let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/doubt/new", params)
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/get", std_rbody)
+                    xhr.onreadystatechange = onSessionGet
+                }
+            }
+        }
+
+        function sendComment() {
+            const txt = document.getElementById("id3").value
+            if (txt === "") {
+                return;
+            }
+            const params = Object.assign({}, std_rbody, { doubt_id: window.to_comment, comment: txt })
+            let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/doubt/comment", params)
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/get", std_rbody)
+                    xhr.onreadystatechange = onSessionGet
+                }
+            }
+        }
+
+        function upvote(doubt_id) {
+            const params = Object.assign({}, std_rbody, { doubt_id: parseInt(doubt_id, 10), type: "upvote" })
+            let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/doubt/vote", params)
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/get", std_rbody)
+                    xhr.onreadystatechange = onSessionGet
+                }
+            }
+        }
+
+        function downvote(doubt_id) {
+            const params = Object.assign({}, std_rbody, { doubt_id: parseInt(doubt_id, 10), type: "downvote" })
+            let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/doubt/vote", params)
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/get", std_rbody)
+                    xhr.onreadystatechange = onSessionGet
+                }
+            }
+        }
+
+        function neutralize(doubt_id) {
+            const params = Object.assign({}, std_rbody, { doubt_id: parseInt(doubt_id, 10), type: "neutral" })
+            let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/doubt/vote", params)
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    let xhr = sendReq("POST", "http://classroomplus.herokuapp.com/sessions/get", std_rbody)
+                    xhr.onreadystatechange = onSessionGet
+                }
+            }
+        }
+    </script>
 </body>
 </html>

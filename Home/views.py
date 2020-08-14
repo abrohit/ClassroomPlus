@@ -97,7 +97,7 @@ def new_session(request):
         url = 'http://' + current_site.domain + '/session/' + session_name
 
         api_url = 'https://classroomplus.herokuapp.com/sessions/new'
-        params = {'session_name': session_name, 'user_id': user.pk, 'user_name': user.username}
+        params = {'session_id': session_name, 'user_id': user.pk, 'user_name': user.username}
         post = requests.post(api_url, json=params)
         return(render(request,'home/dashboard.html',{'url':url}))
 
