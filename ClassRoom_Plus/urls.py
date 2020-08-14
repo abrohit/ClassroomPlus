@@ -37,6 +37,7 @@ urlpatterns = [
 
     path('newsession/',views.new_session,name='new_session'),
     url(r'^session/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/[1-9][0-9]?$|^100/$',views.user_session, name='user_session'),
+    path('joinsession/',views.joinsession, name='joinsession'),
 
     url(r'^makequiz/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/[1-9][0-9]?$|^100/$',views.makequiz, name='makequiz'),
     url(r'^quizresponse/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/[1-9][0-9]?$|^100/$',views.quizresponse, name='quizresponse'),
