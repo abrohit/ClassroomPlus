@@ -29,11 +29,16 @@ urlpatterns = [
     path('login/',views.loginuser, name='loginuser'),
     path('logout/',views.logoutuser, name='logoutuser'),
     path('profile/',views.profile, name='profile'),
+    path('accounts/login/', views.loginuser, name='loginuser'),
 
     path('dashboard/', views.dashboard, name='dashboard'),
 
     path('v1/', include('UserApi.urls')),
 
     path('newsession/',views.new_session,name='new_session'),
-     url(r'^session/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/[1-9][0-9]?$|^100/$',views.user_session, name='user_session'),
+    url(r'^session/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/[1-9][0-9]?$|^100/$',views.user_session, name='user_session'),
+    path('joinsession/',views.joinsession, name="joinsession"),
+
+    path('newquiz/',views.newquiz, name="newquiz"),
+
 ]

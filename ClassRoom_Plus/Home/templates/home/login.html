@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'home/login.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+  <title>Classroom Plus | Login</title>
+  <link rel = "icon" href ="{% static 'home/logoWhite.png' %}" type = "image">
+
+</head>
+
+<body>
+  <style>
+  body {
+    background-image: url("{% static 'home/chalkboard.png' %}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  </style>
+
+  <h1 class="y is has-text-centered is-size-3-mobile has-text-white">Login</h1>
+
+  {% if error %}
+  <div class="container">
+    <div class="notification is-danger has-text-centered x is-size-4-desktop">
+      {{ error }}
+    </div>
+  </div>
+  {% endif %}
+
+  <img class="image has-image-centered" src="{% static 'home/login_user.png' %}" width="316"></img>
+
+  <br><br>
+  <div class="container">
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="field">
+        <div class="control has-icons-left">
+          <input type="text" name="username" class="input" id="username" placeholder = "Username" required="True">
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+        </div>
+      </div>
+
+    <div class="field">
+      <div class="control has-icons-left">
+        <input type="password" name="password" class="input" id="password" placeholder="Password" required="True">
+        <span class="icon is-small is-left">
+          <i class="fas fa-lock"></i>
+        </span>
+      </div>
+    </div>
+
+    <label class="checkbox x">
+      <input type="checkbox">
+        Remember me
+    </label>
+
+    <br><br>
+
+    <div class="columns">
+      <div class="column is-half">
+        <button class="button is-success" type="submit">Login</button>
+      </div>
+      <div class="column">
+        <a class="button is-success is-pulled-right" href="/">Home</a>
+      </div>
+    </div>
+    <p class="help is-size-5-desktop">Don't have an account?<a href="/signup"> Sign Up here</a></p>
+  </form>
+
+
+</div>
+
+
+  </body>
+</html>

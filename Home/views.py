@@ -110,3 +110,11 @@ def user_session(request, uidb64, token):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         return(render(request,'home/session.html'))
+
+@login_required
+def joinsession(request):
+    return(render(request,'home/joinsession.html'))
+
+@login_required
+def newquiz(request):
+    return(render(request,'home/newquiz.html'))
