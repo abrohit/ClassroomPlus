@@ -30,7 +30,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://classroomplus.pythonanywhere.com/', 'localhost']
+ALLOWED_HOSTS = ['classroomplus.pythonanywhere.com', 'localhost']
 
 
 # Application definition
