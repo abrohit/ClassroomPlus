@@ -81,6 +81,7 @@
           <button class="button is-rounded" onclick="createquiz()">Create Quiz!</button>
           <button class="button is-rounded" onclick="quizresponse()">Respond to Quiz</button>
           <button class="button is-rounded" onclick="icebreaker()">Icebreaker</button>
+          <button class="button is-rounded" onclick="freeresponse()">Respond to Free Response</button>
         </div>
     </div>
 
@@ -93,7 +94,7 @@
           <h1 class="x is-size-2-desktop has-text-black is-size-4-mobile"><b>Helping you level up one day at a time!</b></h1>
           <br>
           <br>
-          <p class="x is-size-4 has-text-black"> <b>Handcrafted by Fayed Raza, Rachael wei, Akaash Kolachina, Ricky Zhao, Nakul Iyer, Aryaman Singhal, Rohit Manjunath</b></p>
+          <p class="x is-size-4 has-text-black"> <b>Handcrafted by Fayed Raza, Rachael wei, Akaash Kolachina, Ricky Zhao, Nakul Iyer, Aryaman Singhal, and Rohit Manjunath</b></p>
           <br><br>
         </div>
       </div>
@@ -117,6 +118,10 @@
 
         function icebreaker(){
           window.location.href = '/icebreaker/' + session_id
+        }
+
+        function freeresponse(){
+          window.location.href = '/freeresponse/' + session_id
         }
 
         window.onload = function() {
