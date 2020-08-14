@@ -123,3 +123,11 @@ def quizresponse(request,uidb64, token):
 @login_required
 def icebreaker(request,uidb64, token):
     return(render(request,'home/icebreaker.html'))
+
+@login_required
+def freeresponse(request,uidb64, token):
+    return(render(request,'home/answerOpenEnded.html'))
+
+@login_required
+def joinsession(request):
+    return(render(request,'home/joinsession.html'))

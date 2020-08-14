@@ -81,6 +81,7 @@
           <button class="button is-rounded" onclick="createquiz()">Create Quiz!</button>
           <button class="button is-rounded" onclick="quizresponse()">Respond to Quiz</button>
           <button class="button is-rounded" onclick="icebreaker()">Icebreaker</button>
+          <button class="button is-rounded" onclick="freeresponse()">Respond to Free Response</button>
         </div>
     </div>
 
@@ -117,6 +118,10 @@
 
         function icebreaker(){
           window.location.href = '/icebreaker/' + session_id
+        }
+
+        function freeresponse(){
+          window.location.href = '/freeresponse/' + session_id
         }
 
         window.onload = function() {
