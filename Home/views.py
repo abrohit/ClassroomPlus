@@ -75,6 +75,7 @@ def loginuser(request):
             login(request, user)
             return(redirect('dashboard'))
 
+@login_required
 def profile(request):
     return(render(request,'home/profile.html'))
 
@@ -97,7 +98,7 @@ def new_session(request):
         url = 'http://' + current_site.domain + '/session/' + session_name
 
         api_url = 'https://classroomplus.herokuapp.com/sessions/new'
-        params = {'session_name': session_name, 'user_id': user.pk, 'user_name': user.username}
+        params = {'session_id': session_name, 'user_id': user.pk, 'user_name': user.username}
         post = requests.post(api_url, json=params)
         return(render(request,'home/dashboard.html',{'url':url}))
 
@@ -112,9 +113,13 @@ def user_session(request, uidb64, token):
         return(render(request,'home/session.html'))
 
 @login_required
-def joinsession(request):
-    return(render(request,'home/joinsession.html'))
+def makequiz(request,uidb64, token):
+    return(render(request,'home/makeQuiz.html'))
 
 @login_required
-def newquiz(request):
-    return(render(request,'home/newquiz.html'))
+def quizresponse(request,uidb64, token):
+    return(render(request,'home/getQuestionsStudents.html'))
+
+@login_required
+def icebreaker(request,uidb64, token):
+    return(render(request,'home/icebreaker.html'))
