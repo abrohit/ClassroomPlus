@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Make Quiz</title>
+
+  </head>
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+
+  <style>
+
+   body{
+      background-image: url('https://user-images.githubusercontent.com/42160652/89743160-43626100-da6e-11ea-8888-80aae91702a2.jpeg');
+    }
+
+    p{
+      font-family: 'Fredericka the Great', cursive;
+      color: white;
+      text-align: center;
+      margin-top: 11%;
+    }
+
+    h1{
+      font-family: 'Fredericka the Great', cursive;
+      color: white;
+      text-align: center;
+      font-size: 100px;
+    }
+    label{
+      font-family: 'Fredericka the Great', cursive;
+       margin-left: 12%;
+
+      color: white;
+    }
+.logIn{
+  position: fixed; /* or absolute */
+  top: 40%;
+  left: 40%;
+
+}
+
+h3{
+      font-family: 'Fredericka the Great', cursive;
+      color: white;
+      text-align: center;
+      font-size: 30px;
+    }
+
+button{
+  background-color: #4CAF50; /* Green */
+  font-family: 'Fredericka the Great', cursive;
+  border: none;
+  color: white;
+  padding: 4px 116.5px;
+  margin-left: 20%;
+
+}
+
+::-webkit-input-placeholder { /* Edge */
+  font-size: 9px;
+  font-family: 'Fredericka the Great', cursive;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font-size: 9px;
+  font-family: 'Fredericka the Great', cursive;
+
+}
+
+::placeholder {
+
+  font-family: 'Fredericka the Great', cursive;
+}
+
+
+select{
+  font-family: 'Fredericka the Great', cursive;
+}
+
+
+
+
+
+
+
+    </style>
+
+
+
+  <body>
+
+    <h1> Make Quiz </h1>
+
+
+    <div class="block">
+
+</div>
+<br>
+<br>
+<br>
+<div class="block">
+  <label>Question Number: &nbsp; </label>  <input type="text" class ="input-box" placeholder="Question Number Ex: 1" id="num" name="pword" size="22"/>
+  <label>   &nbsp;&nbsp;&nbsp;&nbsp; Multiple Choice or Open Ended: &nbsp; </label>    <select name="mcq"id="mcq"  style = "width: 22" >
+    <option value="mc">Multiple Choice</option>
+    <option value="frq">Free Response</option>
+  </select>
+</div>
+
+<br>
+<br>
+<h3> Enter Question </h3>
+
+<div class="block">
+  <label> Enter Question: &nbsp; </label>
+
+  <input type="text" class ="input-box" id="question" placeholder="Question" name="pword"  size= "44"/>
+</div>
+
+<br>
+<br>
+
+<div class="block">
+  <label>Type Correct Answer (type N/A for frq):  &nbsp; </label>
+
+  <input type="text" class ="input-box" id="correctAnswer"  placeholder="Correct Answer" name="pword" size= "44" />
+</div>
+
+<br>
+<br>
+
+<div class="block">
+  <label> Type Three Wrong Answers Here Seperated by a Double Space (type N/A for frq): &nbsp; </label>
+
+  <input type="text" class ="input-box" id="wrongAnswer" placeholder="Wrong Answer E.g. WrongAnswer1 WrongAnswer2 WrongAnswer3 " name="pword" size= "44" />
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+ <a class="button" href="/dashboard"> Done (all input here will be ignored) </a>
+ <button type="button" onclick="myFunction()">Next Question</button>
+
+
+<script  defer src="{% static 'home/quiz.js' %}"></script>
+<script  defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<section class="hero is-success is-small is-bold">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <img src="{% static 'home/logoblack.png' %}" width=10%>
+        <h1 class="x is-size-2-desktop has-text-black is-size-4-mobile"><b>Helping you level up one day at a time!</b></h1>
+        <br>
+        <br>
+        <p class="x is-size-4 has-text-black"> <b>Handcrafted by Fayed Raza , Rachael wei , Akaash Kolachina , Ricky Zhao , Nakul Iyer , Aryaman Singhal , Rohit Manjunath</b></p>
+        <br><br>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>

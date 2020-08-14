@@ -1,4 +1,7 @@
 .x{
 font-family: 'Fredericka the Great', cursive;
-font-
+}
+
+html, body {
+    height: 100%;
 }
