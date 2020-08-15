@@ -21,4 +21,4 @@ It lets teachers and students have another platform to make classes more engagin
 
 * The website will run when you run the manage.py using the command "python manage.py runserver" in the command prompt when you're in the directory of the file.
 
-* If you need help starting it, visit [Django](https://www.djangoproject.com/start/)
+* If you need help starting it, visit [Django's official website!](https://www.djangoproject.com/start/)
