@@ -16,3 +16,9 @@ It lets teachers and students have another platform to make classes more engagin
 * A notes feature! It lets students write notes and save them at the end of an session!
 
 * On a side note, the website is also equipped with a signup system that verifies the user by email!
+
+## Help
+
+* The website will run when you run the manage.py using the command "python manage.py runserver" in the command prompt when you're in the directory of the file.
+
+* If you need help starting it, visit [Django](https://www.djangoproject.com/start/)
